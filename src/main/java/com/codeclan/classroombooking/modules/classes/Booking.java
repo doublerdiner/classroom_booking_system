@@ -1,6 +1,5 @@
 package com.codeclan.classroombooking.modules.classes;
 
-import com.codeclan.classroombooking.modules.classes.Classroom;
 import com.codeclan.classroombooking.modules.students.Student;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
@@ -13,17 +12,17 @@ public class Booking {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "classroom_id", nullable = false)
+    @JoinColumn(name = "lesson_id", nullable = false)
     @JsonIgnoreProperties({"bookings"})
-    private Classroom classroom;
+    private Lesson lesson;
 
     @ManyToOne
     @JoinColumn(name = "student_id", nullable = false)
     @JsonIgnoreProperties({"bookings"})
     private Student student;
 
-    public Booking(Classroom classroom, Student student) {
-        this.classroom = classroom;
+    public Booking(Lesson lesson, Student student) {
+        this.lesson = lesson;
         this.student = student;
     }
 
@@ -38,12 +37,12 @@ public class Booking {
         this.id = id;
     }
 
-    public Classroom getClassroom() {
-        return classroom;
+    public Lesson getLesson() {
+        return lesson;
     }
 
-    public void setClassroom(Classroom classroom) {
-        this.classroom = classroom;
+    public void setLesson(Lesson lesson) {
+        this.lesson = lesson;
     }
 
     public Student getStudent() {

@@ -2,25 +2,33 @@ package com.codeclan.classroombooking;
 
 import com.codeclan.classroombooking.modules.*;
 import com.codeclan.classroombooking.modules.classes.Booking;
-import com.codeclan.classroombooking.modules.classes.Classroom;
+import com.codeclan.classroombooking.modules.classes.Lesson;
 import com.codeclan.classroombooking.modules.classes.DayType;
 import com.codeclan.classroombooking.modules.students.*;
+import com.codeclan.classroombooking.repositories.AbsenceRepository;
+import com.codeclan.classroombooking.repositories.StudentRepository;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 class ClassroombookingApplicationTests {
 	private User user;
-	private Classroom classroom;
+	private Lesson lesson;
 	private Booking booking;
 	private Student student;
 	private Demerit demerit;
 	private Absence absence;
+	@Autowired
+	StudentRepository studentRepository;
+	@Autowired
+	AbsenceRepository absenceRepository;
 
 	@Test
 	void contextLoads() {
@@ -30,16 +38,16 @@ class ClassroombookingApplicationTests {
 		user = new User("Aimi", "Barclay");
 		assertEquals("Aimi", user.getFirstName());
 		assertEquals("Barclay", user.getLastName());
-		assertEquals(0, user.getClassrooms().size());
+		assertEquals(0, user.getLessons().size());
 	}
 	@Test
-	public void classroomHasDetails(){
+	public void lessonHasDetails(){
 		user = new User("Aimi", "Barclay");
-		classroom = new Classroom("1A", DayType.MON, 1, user);
-		assertEquals("1A", classroom.getName());
-		assertEquals("Monday", classroom.getDayType().formatted());
-		assertEquals(1, classroom.getPeriod());
-		assertEquals("Aimi", classroom.getUser().getFirstName());
+		lesson = new Lesson("Art & Design", DayType.MON, 1, 1, user);
+		assertEquals("Art & Design", lesson.getName());
+		assertEquals("Monday", lesson.getDayType().formatted());
+		assertEquals(1, lesson.getPeriod());
+		assertEquals("Aimi", lesson.getUser().getFirstName());
 	}
 	@Test
 	public void studentHasDetails(){
@@ -53,10 +61,10 @@ class ClassroombookingApplicationTests {
 	@Test
 	public void bookingHasDetails(){
 		user = new User("Aimi", "Barclay");
-		classroom = new Classroom("1A", DayType.MON, 1, user);
+		lesson = new Lesson("Art & Design", DayType.MON, 1, 1, user);
 		student = new Student("Dale", "Cooper", 1);
-		booking = new Booking(classroom, student);
-		assertEquals("1A", booking.getClassroom().getName());
+		booking = new Booking(lesson, student);
+		assertEquals("Art & Design", booking.getLesson().getName());
 		assertEquals("Dale", booking.getStudent().getFirstName());
 	}
 	@Test
@@ -76,6 +84,34 @@ class ClassroombookingApplicationTests {
 		assertEquals(LocalDate.parse("2023-05-02"),  absence.getDate());
 		assertEquals("Dale", absence.getStudent().getFirstName());
 		assertEquals(null, absence.getNotes());
+	}
+	@Test
+	public void checkStudentAttendance(){
+		student = new Student("Dale", "Cooper", 1);
+		student.checkStudentAbsence();
+		assertEquals(false, student.isAbsenceFlag());
+		student.addAbsence(new Absence(AbsenceType.LATE, LocalDate.now(), student));
+		student.addAbsence(new Absence(AbsenceType.LATE, LocalDate.now(), student));
+		student.addAbsence(new Absence(AbsenceType.LATE, LocalDate.now(), student));
+		student.addAbsence(new Absence(AbsenceType.LATE, LocalDate.now(), student));
+		student.addAbsence(new Absence(AbsenceType.LATE, LocalDate.now(), student));
+		student.checkStudentAbsence();
+		assertEquals(true, student.isAbsenceFlag());
+
+	}
+	@Test
+	public void checkStudentDemerits(){
+		student = new Student("Dale", "Cooper", 1);
+		student.checkStudentDemerit();
+		assertEquals(false, student.isDemeritFlag());
+		student.addDemerit(new Demerit(DemeritType.FIRST_WARNING, LocalDate.now(), student));
+		student.addDemerit(new Demerit(DemeritType.FIRST_WARNING, LocalDate.now(), student));
+		student.addDemerit(new Demerit(DemeritType.FIRST_WARNING, LocalDate.now(), student));
+		student.addDemerit(new Demerit(DemeritType.FIRST_WARNING, LocalDate.now(), student));
+		student.addDemerit(new Demerit(DemeritType.FIRST_WARNING, LocalDate.now(), student));
+		student.checkStudentDemerit();
+		assertEquals(true, student.isDemeritFlag());
+
 	}
 
 }

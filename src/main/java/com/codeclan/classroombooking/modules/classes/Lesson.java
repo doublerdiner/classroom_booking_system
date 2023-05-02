@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "classrooms")
-public class Classroom {
+@Table(name = "lessons")
+public class Lesson {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,23 +20,26 @@ public class Classroom {
     private DayType dayType;
 
     private int period;
+    @Column(name = "year_group")
+    private int yearGroup;
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    @JsonIgnoreProperties({"classrooms"})
+    @JsonIgnoreProperties({"lessons"})
     private User user;
-    @JsonIgnoreProperties({"classroom"})
-    @OneToMany(mappedBy = "classroom", fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"lesson"})
+    @OneToMany(mappedBy = "lesson", fetch = FetchType.LAZY)
     private List<Booking> bookings;
 
-    public Classroom(String name, DayType dayType, int period, User user) {
+    public Lesson(String name, DayType dayType, int period, int yearGroup, User user) {
         this.name = name;
         this.dayType = dayType;
         this.period = period;
+        this.yearGroup = yearGroup;
         this.user = user;
         this.bookings = new ArrayList<>();
     }
 
-    public Classroom() {
+    public Lesson() {
     }
 
     public Long getId() {
@@ -69,6 +72,14 @@ public class Classroom {
 
     public void setPeriod(int period) {
         this.period = period;
+    }
+
+    public int getYearGroup() {
+        return yearGroup;
+    }
+
+    public void setYearGroup(int yearGroup) {
+        this.yearGroup = yearGroup;
     }
 
     public User getUser() {

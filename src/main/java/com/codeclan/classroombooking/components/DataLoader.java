@@ -2,7 +2,7 @@ package com.codeclan.classroombooking.components;
 
 import com.codeclan.classroombooking.modules.*;
 import com.codeclan.classroombooking.modules.classes.Booking;
-import com.codeclan.classroombooking.modules.classes.Classroom;
+import com.codeclan.classroombooking.modules.classes.Lesson;
 import com.codeclan.classroombooking.modules.classes.DayType;
 import com.codeclan.classroombooking.modules.students.*;
 import com.codeclan.classroombooking.repositories.*;
@@ -18,7 +18,7 @@ public class DataLoader implements ApplicationRunner {
     @Autowired
     UserRepository userRepository;
     @Autowired
-    ClassroomRepository classroomRepository;
+    LessonRepository classroomRepository;
     @Autowired
     StudentRepository studentRepository;
     @Autowired
@@ -33,7 +33,7 @@ public class DataLoader implements ApplicationRunner {
     public void run(ApplicationArguments args){
         User user = new User("Aimi", "Barclay");
         userRepository.save(user);
-        Classroom classroom = new Classroom("1A", DayType.MON, 1, user);
+        Lesson classroom = new Lesson("Art & Design", DayType.MON, 1, 1, user);
         classroomRepository.save(classroom);
         Student student1 = new Student("Dale", "Cooper", 1);
         Student student2 = new Student("Laura", "Palmer", 1);

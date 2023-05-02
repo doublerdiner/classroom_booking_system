@@ -1,6 +1,6 @@
 package com.codeclan.classroombooking.modules;
 
-import com.codeclan.classroombooking.modules.classes.Classroom;
+import com.codeclan.classroombooking.modules.classes.Lesson;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
@@ -19,12 +19,12 @@ public class User {
     private String lastName;
     @JsonIgnoreProperties({"user"})
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<Classroom> classrooms;
+    private List<Lesson> lessons;
 
     public User(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.classrooms = new ArrayList<>();
+        this.lessons = new ArrayList<>();
     }
 
     public User() {
@@ -54,11 +54,11 @@ public class User {
         this.lastName = lastName;
     }
 
-    public List<Classroom> getClassrooms() {
-        return classrooms;
+    public List<Lesson> getLessons() {
+        return lessons;
     }
 
-    public void setClassrooms(List<Classroom> classrooms) {
-        this.classrooms = classrooms;
+    public void setLessons(List<Lesson> lessons) {
+        this.lessons = lessons;
     }
 }

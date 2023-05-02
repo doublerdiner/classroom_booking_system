@@ -1,6 +1,7 @@
 package com.codeclan.classroombooking.modules.students;
 
 import com.codeclan.classroombooking.modules.classes.Booking;
+import com.codeclan.classroombooking.modules.misc.Date;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
@@ -32,6 +33,7 @@ public class Student {
     private boolean demeritFlag;
     @Column(name="absence_flag")
     private boolean absenceFlag;
+    private String notes;
 
     public Student(String firstName, String lastName, int studentYear) {
         this.firstName = firstName;
@@ -117,5 +119,55 @@ public class Student {
 
     public void setAbsenceFlag(boolean absenceFlag) {
         this.absenceFlag = absenceFlag;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+
+
+
+
+
+
+    public boolean checkStudentAbsence() {
+        int total = 0;
+        for(Absence absence : this.absences){
+            if(Date.threeMonthsAgo().compareTo(absence.getDate()) <= 0){
+                total += 1;
+            }
+        }
+        if(total >= 5){
+            setAbsenceFlag(true);
+            return true;
+        }
+        setAbsenceFlag(false);
+        return false;
+    }public boolean checkStudentDemerit() {
+        int total = 0;
+        for(Demerit demerit : this.demerits){
+            if(Date.threeMonthsAgo().compareTo(demerit.getDate()) <= 0){
+                total += 1;
+            }
+        }
+        if(total >= 5){
+            setDemeritFlag(true);
+            return true;
+        }
+        setDemeritFlag(false);
+        return false;
+    }
+
+    public void addAbsence(Absence absence) {
+        this.absences.add(absence);
+    }
+
+    public void addDemerit(Demerit demerit) {
+        this.demerits.add(demerit);
     }
 }
