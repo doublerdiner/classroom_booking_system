@@ -1,5 +1,6 @@
-package com.codeclan.classroombooking.modules;
+package com.codeclan.classroombooking.modules.classes;
 
+import com.codeclan.classroombooking.modules.User;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
@@ -15,7 +16,8 @@ public class Classroom {
 
     private String name;
 
-    private DayType day;
+    @Column(name = "day_type")
+    private DayType dayType;
 
     private int period;
     @ManyToOne
@@ -26,12 +28,15 @@ public class Classroom {
     @OneToMany(mappedBy = "classroom", fetch = FetchType.LAZY)
     private List<Booking> bookings;
 
-    public Classroom(String name, DayType day, int period, User user) {
+    public Classroom(String name, DayType dayType, int period, User user) {
         this.name = name;
-        this.day = day;
+        this.dayType = dayType;
         this.period = period;
         this.user = user;
         this.bookings = new ArrayList<>();
+    }
+
+    public Classroom() {
     }
 
     public Long getId() {
@@ -50,12 +55,12 @@ public class Classroom {
         this.name = name;
     }
 
-    public DayType getDay() {
-        return day;
+    public DayType getDayType() {
+        return dayType;
     }
 
-    public void setDay(DayType day) {
-        this.day = day;
+    public void setDayType(DayType dayType) {
+        this.dayType = dayType;
     }
 
     public int getPeriod() {
@@ -66,19 +71,19 @@ public class Classroom {
         this.period = period;
     }
 
-    public List<Booking> getBookings() {
-        return bookings;
-    }
-
-    public void setBookings(List<Booking> bookings) {
-        this.bookings = bookings;
-    }
-
     public User getUser() {
         return user;
     }
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public List<Booking> getBookings() {
+        return bookings;
+    }
+
+    public void setBookings(List<Booking> bookings) {
+        this.bookings = bookings;
     }
 }

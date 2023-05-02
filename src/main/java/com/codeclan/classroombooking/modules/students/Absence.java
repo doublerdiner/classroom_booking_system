@@ -1,4 +1,4 @@
-package com.codeclan.classroombooking.modules;
+package com.codeclan.classroombooking.modules.students;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
@@ -6,27 +6,26 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "demerits")
-public class Demerit {
+@Table(name = "absences")
+public class Absence {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private DemeritType demerit;
-
+    private AbsenceType absenceType;
     private LocalDate date;
     @ManyToOne
     @JoinColumn(name = "student_id", nullable = false)
-    @JsonIgnoreProperties({"demerits"})
+    @JsonIgnoreProperties({"absences"})
     private Student student;
+    private String notes;
 
-    public Demerit(DemeritType demerit, LocalDate date, Student student) {
-        this.demerit = demerit;
+    public Absence(AbsenceType absenceType, LocalDate date, Student student) {
+        this.absenceType = absenceType;
         this.date = date;
         this.student = student;
     }
 
-    public Demerit() {
+    public Absence() {
     }
 
     public Long getId() {
@@ -37,12 +36,12 @@ public class Demerit {
         this.id = id;
     }
 
-    public DemeritType getDemerit() {
-        return demerit;
+    public AbsenceType getAbsenceType() {
+        return absenceType;
     }
 
-    public void setDemerit(DemeritType demerit) {
-        this.demerit = demerit;
+    public void setAbsenceType(AbsenceType absenceType) {
+        this.absenceType = absenceType;
     }
 
     public LocalDate getDate() {
@@ -59,5 +58,13 @@ public class Demerit {
 
     public void setStudent(Student student) {
         this.student = student;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 }

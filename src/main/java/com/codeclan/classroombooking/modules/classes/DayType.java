@@ -1,4 +1,4 @@
-package com.codeclan.classroombooking.modules;
+package com.codeclan.classroombooking.modules.classes;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

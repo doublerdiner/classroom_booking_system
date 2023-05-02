@@ -1,5 +1,6 @@
-package com.codeclan.classroombooking.modules;
+package com.codeclan.classroombooking.modules.students;
 
+import com.codeclan.classroombooking.modules.classes.Booking;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
@@ -16,23 +17,31 @@ public class Student {
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
-    private int year;
+    @Column(name = "student_year")
+    private int studentYear;
     @JsonIgnoreProperties({"student"})
     @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
     private List<Booking> bookings;
     @JsonIgnoreProperties({"student"})
     @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
     private List<Demerit> demerits;
+    @JsonIgnoreProperties({"student"})
+    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
+    private List<Absence> absences;
     @Column(name = "demerit_flag")
     private boolean demeritFlag;
+    @Column(name="absence_flag")
+    private boolean absenceFlag;
 
-    public Student(String firstName, String lastName, int year) {
+    public Student(String firstName, String lastName, int studentYear) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.year = year;
+        this.studentYear = studentYear;
         this.bookings = new ArrayList<>();
         this.demerits = new ArrayList<>();
+        this.absences = new ArrayList<>();
         this.demeritFlag = false;
+        this.absenceFlag = false;
     }
 
     public Student() {
@@ -62,12 +71,12 @@ public class Student {
         this.lastName = lastName;
     }
 
-    public int getYear() {
-        return year;
+    public int getStudentYear() {
+        return studentYear;
     }
 
-    public void setYear(int year) {
-        this.year = year;
+    public void setStudentYear(int studentYear) {
+        this.studentYear = studentYear;
     }
 
     public List<Booking> getBookings() {
@@ -86,11 +95,27 @@ public class Student {
         this.demerits = demerits;
     }
 
+    public List<Absence> getAbsences() {
+        return absences;
+    }
+
+    public void setAbsences(List<Absence> absences) {
+        this.absences = absences;
+    }
+
     public boolean isDemeritFlag() {
         return demeritFlag;
     }
 
     public void setDemeritFlag(boolean demeritFlag) {
         this.demeritFlag = demeritFlag;
+    }
+
+    public boolean isAbsenceFlag() {
+        return absenceFlag;
+    }
+
+    public void setAbsenceFlag(boolean absenceFlag) {
+        this.absenceFlag = absenceFlag;
     }
 }

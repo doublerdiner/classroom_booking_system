@@ -1,5 +1,7 @@
-package com.codeclan.classroombooking.modules;
+package com.codeclan.classroombooking.modules.classes;
 
+import com.codeclan.classroombooking.modules.classes.Classroom;
+import com.codeclan.classroombooking.modules.students.Student;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
