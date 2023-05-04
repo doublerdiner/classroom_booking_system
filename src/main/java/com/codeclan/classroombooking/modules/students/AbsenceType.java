@@ -1,5 +1,6 @@
 package com.codeclan.classroombooking.modules.students;
 
+import com.codeclan.classroombooking.modules.classes.DayType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public enum AbsenceType {
@@ -15,4 +16,5 @@ public enum AbsenceType {
     public String formatted() {
         return formatted;
     }
+
 }
