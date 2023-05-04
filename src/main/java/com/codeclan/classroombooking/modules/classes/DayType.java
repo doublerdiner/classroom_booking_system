@@ -7,7 +7,9 @@ public enum DayType {
     @JsonProperty("Tuesday") TUE("Tuesday"),
     @JsonProperty("Wednesday") WED("Wednesday"),
     @JsonProperty("Thursday") THU("Thursday"),
-    @JsonProperty("Friday") FRI("Friday");
+    @JsonProperty("Friday") FRI("Friday"),
+    @JsonProperty("Saturday") SAT("Saturday"),
+    @JsonProperty("Sunday") SUN("Sunday");
     private final String formatted;
 
     DayType(String formatted) {
