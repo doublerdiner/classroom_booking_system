@@ -113,5 +113,10 @@ class ClassroombookingApplicationTests {
 		assertEquals(true, student.isDemeritFlag());
 
 	}
+	@Test
+	public void canRetrieveStudentsByLesson(){
+		List<Student> students = studentRepository.findStudentsByBookingsLessonUserFirstNameAndBookingsLessonUserLastNameAndBookingsLessonDayTypeAndBookingsLessonPeriod("Aimi", "Barclay", DayType.MON, 1);
+		System.out.println(students);
+	}
 
 }
