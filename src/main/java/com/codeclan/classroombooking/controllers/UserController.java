@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
+
 @CrossOrigin
 @RestController
 public class UserController {
@@ -18,6 +20,12 @@ public class UserController {
     public ResponseEntity<List<User>> getAllUsers(){
         return new ResponseEntity<>(userRepository.findAll(), HttpStatus.OK);
     }
+    @GetMapping(value = "/users/{id}")
+    public ResponseEntity<Optional<User>> getUser(
+            @PathVariable Long id
+    ){
+        return new ResponseEntity<>(userRepository.findById(id), HttpStatus.OK);
+    }
     @PutMapping(value = "/users/{id}")
     public ResponseEntity<User> updateUser(
             @PathVariable Long id,
@@ -26,6 +34,7 @@ public class UserController {
         User updateUser = userRepository.findById(id).get();
         updateUser.setFirstName(user.getFirstName());
         updateUser.setLastName(user.getLastName());
+        updateUser.setEmail(user.getEmail());
         updateUser.setLessons(user.getLessons());
         userRepository.save(updateUser);
         return new ResponseEntity<>(updateUser, HttpStatus.ACCEPTED);

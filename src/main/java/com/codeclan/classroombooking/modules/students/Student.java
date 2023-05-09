@@ -1,9 +1,10 @@
 package com.codeclan.classroombooking.modules.students;
 
-import com.codeclan.classroombooking.modules.classes.Booking;
+import com.codeclan.classroombooking.modules.classes.Lesson;
 import com.codeclan.classroombooking.modules.misc.Date;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import org.hibernate.annotations.Cascade;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +21,29 @@ public class Student {
     private String lastName;
     @Column(name = "student_year")
     private int studentYear;
-    @JsonIgnoreProperties({"student"})
-    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
-    private List<Booking> bookings;
+
+    @ManyToMany
+    @JsonIgnoreProperties({"students"})
+    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+    @JoinTable(
+            name = "lessons_students",
+            joinColumns = {
+                    @JoinColumn(
+                            name = "student_id",
+                            nullable = false,
+                            updatable = false
+                    )
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(
+                            name = "lesson_id",
+                            nullable = false,
+                            updatable = false
+                    )
+            }
+    )
+    private List<Lesson> lessons;
+
     @JsonIgnoreProperties({"student"})
     @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
     private List<Demerit> demerits;
@@ -39,7 +60,7 @@ public class Student {
         this.firstName = firstName;
         this.lastName = lastName;
         this.studentYear = studentYear;
-        this.bookings = new ArrayList<>();
+        this.lessons = new ArrayList<>();
         this.demerits = new ArrayList<>();
         this.absences = new ArrayList<>();
         this.demeritFlag = false;
@@ -81,12 +102,12 @@ public class Student {
         this.studentYear = studentYear;
     }
 
-    public List<Booking> getBookings() {
-        return bookings;
+    public List<Lesson> getLessons() {
+        return lessons;
     }
 
-    public void setBookings(List<Booking> bookings) {
-        this.bookings = bookings;
+    public void setLessons(List<Lesson> lessons) {
+        this.lessons = lessons;
     }
 
     public List<Demerit> getDemerits() {
@@ -129,11 +150,9 @@ public class Student {
         this.notes = notes;
     }
 
-
-
-
-
-
+    public void saveLessonToStudent(Lesson lesson){
+        this.lessons.add(lesson);
+    }
 
     public boolean checkStudentAbsence() {
         int total = 0;

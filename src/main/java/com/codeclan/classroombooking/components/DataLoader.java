@@ -1,9 +1,8 @@
 package com.codeclan.classroombooking.components;
 
-import com.codeclan.classroombooking.modules.*;
-import com.codeclan.classroombooking.modules.classes.Booking;
-import com.codeclan.classroombooking.modules.classes.Lesson;
+import com.codeclan.classroombooking.modules.User;
 import com.codeclan.classroombooking.modules.classes.DayType;
+import com.codeclan.classroombooking.modules.classes.Lesson;
 import com.codeclan.classroombooking.modules.students.*;
 import com.codeclan.classroombooking.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,44 +17,55 @@ public class DataLoader implements ApplicationRunner {
     @Autowired
     UserRepository userRepository;
     @Autowired
-    LessonRepository classroomRepository;
+    LessonRepository lessonRepository;
     @Autowired
     StudentRepository studentRepository;
     @Autowired
-    BookingRepository bookingRepository;
+    AbsenceRepository absenceRepository;
     @Autowired
     DemeritRepository demeritRepository;
-    @Autowired
-    AbsenceRepository absenceRepository;
 
     public DataLoader() {
     }
+
     public void run(ApplicationArguments args){
-        User user = new User("Aimi", "Barclay");
+        User user = new User("Aimi", "Barclay", "aimi.barclay1@gmail.com");
+        User user2 = new User("Chris", "Barclay", "chris.barclay1@gmail.com");
+        User user3 = new User("Jim", "Barclay", "jim.barclay4@gmail.com");
         userRepository.save(user);
-        Lesson classroom = new Lesson("Art & Design", DayType.MON, 1, 1, user);
-        classroomRepository.save(classroom);
-        Student student1 = new Student("Dale", "Cooper", 1);
+        userRepository.save(user2);
+        userRepository.save(user3);
+        Lesson lesson = new Lesson("Art & Design", DayType.MON, 1, 1, user);
+        Lesson lesson2 = new Lesson("History", DayType.MON, 1, 1, user2);
+        Lesson lesson3 = new Lesson("Photography", DayType.MON, 2, 1, user);
+        lessonRepository.save(lesson);
+        lessonRepository.save(lesson2);
+        lessonRepository.save(lesson3);
+        Student student = new Student("Dale", "Cooper", 1);
         Student student2 = new Student("Laura", "Palmer", 1);
-        Student student3 = new Student("Gordon", "Cole", 1);
-        Student student4 = new Student("Leland", "Palmer", 1);
-        Booking booking1 = new Booking(classroom, student1);
-        Booking booking2 = new Booking(classroom, student2);
-        Booking booking3 = new Booking(classroom, student3);
-        Booking booking4 = new Booking(classroom, student4);
-        studentRepository.save(student1);
+        Student student3 = new Student("Leland", "Palmer", 1);
+        Student student4 = new Student("Gordon", "Cole", 1);
+        Student student5 = new Student("Audrey", "Horne", 1);
+        lesson.saveStudentToLesson(student);
+        lesson.saveStudentToLesson(student2);
+        lesson.saveStudentToLesson(student3);
+        lesson.saveStudentToLesson(student4);
+        lesson.saveStudentToLesson(student5);
+        student.saveLessonToStudent(lesson);
+        student2.saveLessonToStudent(lesson);
+        student3.saveLessonToStudent(lesson);
+        student4.saveLessonToStudent(lesson);
+        student5.saveLessonToStudent(lesson);
+        studentRepository.save(student);
         studentRepository.save(student2);
         studentRepository.save(student3);
         studentRepository.save(student4);
-        bookingRepository.save(booking1);
-        bookingRepository.save(booking2);
-        bookingRepository.save(booking3);
-        bookingRepository.save(booking4);
-        Demerit demerit = new Demerit(DemeritType.FIRST_WARNING, LocalDate.now(), student1);
-        demeritRepository.save(demerit);
-        Absence absence = new Absence(AbsenceType.LATE, LocalDate.now(), student1);
+        studentRepository.save(student5);
+        Absence absence = new Absence(AbsenceType.LATE, LocalDate.now(), student);
+        Demerit demerit = new Demerit(DemeritType.FIRST_WARNING, LocalDate.now(), student);
         absenceRepository.save(absence);
+        demeritRepository.save(demerit);
+
 
     }
-
 }

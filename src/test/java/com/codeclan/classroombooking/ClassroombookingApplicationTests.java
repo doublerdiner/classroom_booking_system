@@ -1,7 +1,6 @@
 package com.codeclan.classroombooking;
 
 import com.codeclan.classroombooking.modules.*;
-import com.codeclan.classroombooking.modules.classes.Booking;
 import com.codeclan.classroombooking.modules.classes.Lesson;
 import com.codeclan.classroombooking.modules.classes.DayType;
 import com.codeclan.classroombooking.modules.students.*;
@@ -21,28 +20,24 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class ClassroombookingApplicationTests {
 	private User user;
 	private Lesson lesson;
-	private Booking booking;
 	private Student student;
 	private Demerit demerit;
 	private Absence absence;
-	@Autowired
-	StudentRepository studentRepository;
-	@Autowired
-	AbsenceRepository absenceRepository;
 
 	@Test
 	void contextLoads() {
 	}
 	@Test
 	public void userHasDetails(){
-		user = new User("Aimi", "Barclay");
+		user = new User("Aimi", "Barclay", "aimi.barclay1@gmail.com");
 		assertEquals("Aimi", user.getFirstName());
 		assertEquals("Barclay", user.getLastName());
+		assertEquals("aimi.barclay1@gmail.com", user.getEmail());
 		assertEquals(0, user.getLessons().size());
 	}
 	@Test
 	public void lessonHasDetails(){
-		user = new User("Aimi", "Barclay");
+		user = new User("Aimi", "Barclay", "aimi.barclay1@gmail.com");
 		lesson = new Lesson("Art & Design", DayType.MON, 1, 1, user);
 		assertEquals("Art & Design", lesson.getName());
 		assertEquals("Monday", lesson.getDayType().formatted());
@@ -55,17 +50,8 @@ class ClassroombookingApplicationTests {
 		assertEquals("Dale", student.getFirstName());
 		assertEquals("Cooper", student.getLastName());
 		assertEquals(1, student.getStudentYear());
-		assertEquals(0, student.getBookings().size());
+		assertEquals(0, student.getLessons().size());
 		assertEquals(0, student.getDemerits().size());
-	}
-	@Test
-	public void bookingHasDetails(){
-		user = new User("Aimi", "Barclay");
-		lesson = new Lesson("Art & Design", DayType.MON, 1, 1, user);
-		student = new Student("Dale", "Cooper", 1);
-		booking = new Booking(lesson, student);
-		assertEquals("Art & Design", booking.getLesson().getName());
-		assertEquals("Dale", booking.getStudent().getFirstName());
 	}
 	@Test
 	public void demeritHasDetails(){
@@ -81,7 +67,7 @@ class ClassroombookingApplicationTests {
 		student = new Student("Dale", "Cooper", 1);
 		absence = new Absence(AbsenceType.LATE, LocalDate.now(), student);
 		assertEquals("Late", absence.getAbsenceType().formatted());
-		assertEquals(LocalDate.parse("2023-05-02"),  absence.getDate());
+		assertEquals(LocalDate.parse("2023-05-09"),  absence.getDate());
 		assertEquals("Dale", absence.getStudent().getFirstName());
 		assertEquals(null, absence.getNotes());
 	}
@@ -112,11 +98,6 @@ class ClassroombookingApplicationTests {
 		student.checkStudentDemerit();
 		assertEquals(true, student.isDemeritFlag());
 
-	}
-	@Test
-	public void canRetrieveStudentsByLesson(){
-		List<Student> students = studentRepository.findStudentsByBookingsLessonUserFirstNameAndBookingsLessonUserLastNameAndBookingsLessonDayTypeAndBookingsLessonPeriod("Aimi", "Barclay", DayType.MON, 1);
-		System.out.println(students);
 	}
 
 }

@@ -18,15 +18,8 @@ public class StudentController {
 
     @GetMapping(value = "/students")
     public ResponseEntity<List<Student>> getAllStudents(
-            @RequestParam(name = "userfirstname", required = false) String firstName,
-            @RequestParam(name = "userlastname", required = false) String lastName,
-            @RequestParam(name = "day", required = false) String day,
-            @RequestParam(name = "period", required = false) Integer period
     ){
-        if(firstName != null && lastName != null && day != null && period != null){
-            DayType dayType = DayType.convertToDayType(day);
-            return new ResponseEntity<>(studentRepository.findStudentsByBookingsLessonUserFirstNameAndBookingsLessonUserLastNameAndBookingsLessonDayTypeAndBookingsLessonPeriod(firstName, lastName, dayType, period), HttpStatus.OK);
-        }
+
         return new ResponseEntity<>(studentRepository.findAll(), HttpStatus.OK);
     }
     @GetMapping(value = "/students/{id}")
@@ -51,7 +44,7 @@ public class StudentController {
         updateStudent.setFirstName(student.getFirstName());
         updateStudent.setLastName(student.getLastName());
         updateStudent.setStudentYear(student.getStudentYear());
-        updateStudent.setBookings(student.getBookings());
+        updateStudent.setLessons(student.getLessons());
         updateStudent.setDemerits(student.getDemerits());
         updateStudent.setAbsences(student.getAbsences());
         updateStudent.setDemeritFlag(student.isDemeritFlag());

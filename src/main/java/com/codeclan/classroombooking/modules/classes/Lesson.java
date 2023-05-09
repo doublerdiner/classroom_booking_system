@@ -1,8 +1,10 @@
 package com.codeclan.classroombooking.modules.classes;
 
 import com.codeclan.classroombooking.modules.User;
+import com.codeclan.classroombooking.modules.students.Student;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import org.hibernate.annotations.Cascade;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,9 +28,28 @@ public class Lesson {
     @JoinColumn(name = "user_id", nullable = false)
     @JsonIgnoreProperties({"lessons"})
     private User user;
-    @JsonIgnoreProperties({"lesson"})
-    @OneToMany(mappedBy = "lesson", fetch = FetchType.LAZY)
-    private List<Booking> bookings;
+
+    @ManyToMany
+    @JsonIgnoreProperties({"lessons"})
+    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+    @JoinTable(
+            name = "lessons_students",
+            joinColumns = {
+                    @JoinColumn(
+                            name = "lesson_id",
+                            nullable = false,
+                            updatable = false
+                    )
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(
+                            name = "student_id",
+                            nullable = false,
+                            updatable = false
+                    )
+            }
+    )
+    private List<Student> students;
 
     public Lesson(String name, DayType dayType, int period, int yearGroup, User user) {
         this.name = name;
@@ -36,7 +57,7 @@ public class Lesson {
         this.period = period;
         this.yearGroup = yearGroup;
         this.user = user;
-        this.bookings = new ArrayList<>();
+        this.students = new ArrayList<>();
     }
 
     public Lesson() {
@@ -90,11 +111,14 @@ public class Lesson {
         this.user = user;
     }
 
-    public List<Booking> getBookings() {
-        return bookings;
+    public List<Student> getStudents() {
+        return students;
     }
 
-    public void setBookings(List<Booking> bookings) {
-        this.bookings = bookings;
+    public void setStudents(List<Student> students) {
+        this.students = students;
+    }
+    public void saveStudentToLesson(Student student){
+        this.students.add(student);
     }
 }

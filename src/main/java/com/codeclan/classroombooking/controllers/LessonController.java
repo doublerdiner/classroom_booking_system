@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin
 @RestController
 public class LessonController {
     @Autowired
@@ -45,7 +46,7 @@ public class LessonController {
         updateLesson.setPeriod(lesson.getPeriod());
         updateLesson.setYearGroup(lesson.getYearGroup());
         updateLesson.setUser(lesson.getUser());
-        updateLesson.setBookings(lesson.getBookings());
+        updateLesson.setStudents(lesson.getStudents());
         lessonRepository.save(updateLesson);
         return new ResponseEntity<>(updateLesson, HttpStatus.ACCEPTED);
     }

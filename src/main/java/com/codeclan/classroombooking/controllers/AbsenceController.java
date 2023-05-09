@@ -1,12 +1,10 @@
 package com.codeclan.classroombooking.controllers;
 
 import com.codeclan.classroombooking.modules.students.Absence;
-import com.codeclan.classroombooking.modules.students.AbsenceType;
 import com.codeclan.classroombooking.repositories.AbsenceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
