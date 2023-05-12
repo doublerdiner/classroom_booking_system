@@ -29,9 +29,8 @@ public class AbsenceController {
     public ResponseEntity saveAbsence(
             @RequestBody Absence absence
     ){
-        System.out.println(absence);
         absenceRepository.save(absence);
-        return new ResponseEntity<>(absence, HttpStatus.CREATED);
+        return new ResponseEntity(absence, HttpStatus.CREATED);
     }
     @PutMapping(value = "/absences/{id}")
     public ResponseEntity<Absence> updateAbsence(
@@ -39,7 +38,7 @@ public class AbsenceController {
             @RequestBody Absence absence
     ){
         Absence updateAbsence = absenceRepository.findById(id).get();
-        updateAbsence.setAbsenceType(absence.getAbsenceType());
+        updateAbsence.setAbsence(absence.getAbsence());
         updateAbsence.setDate(absence.getDate());
         updateAbsence.setStudent(absence.getStudent());
         updateAbsence.setNotes(absence.getNotes());

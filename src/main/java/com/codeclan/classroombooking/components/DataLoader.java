@@ -35,12 +35,14 @@ public class DataLoader implements ApplicationRunner {
         userRepository.save(user);
         userRepository.save(user2);
         userRepository.save(user3);
-        Lesson lesson = new Lesson("Art & Design", DayType.MON, 1, 1, user);
+        Lesson lesson = new Lesson("Art & Design", DayType.MON, 3, 1, user2);
         Lesson lesson2 = new Lesson("History", DayType.MON, 1, 1, user2);
-        Lesson lesson3 = new Lesson("Photography", DayType.MON, 2, 1, user);
+        Lesson lesson3 = new Lesson("Photography", DayType.MON, 2, 1, user2);
+        Lesson lesson4 = new Lesson("Photography", DayType.WED, 1, 1, user2);
         lessonRepository.save(lesson);
         lessonRepository.save(lesson2);
         lessonRepository.save(lesson3);
+        lessonRepository.save(lesson4);
         Student student = new Student("Dale", "Cooper", 1);
         Student student2 = new Student("Laura", "Palmer", 1);
         Student student3 = new Student("Leland", "Palmer", 1);

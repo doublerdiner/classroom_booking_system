@@ -11,7 +11,7 @@ public class Absence {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private AbsenceType absenceType;
+    private AbsenceType absence;
     private LocalDate date;
     @ManyToOne
     @JoinColumn(name = "student_id", nullable = false)
@@ -19,8 +19,8 @@ public class Absence {
     private Student student;
     private String notes;
 
-    public Absence(AbsenceType absenceType, LocalDate date, Student student) {
-        this.absenceType = absenceType;
+    public Absence(AbsenceType absence, LocalDate date, Student student) {
+        this.absence = absence;
         this.date = date;
         this.student = student;
     }
@@ -36,12 +36,12 @@ public class Absence {
         this.id = id;
     }
 
-    public AbsenceType getAbsenceType() {
-        return absenceType;
+    public AbsenceType getAbsence() {
+        return absence;
     }
 
-    public void setAbsenceType(AbsenceType absenceType) {
-        this.absenceType = absenceType;
+    public void setAbsence(AbsenceType absence) {
+        this.absence = absence;
     }
 
     public LocalDate getDate() {
