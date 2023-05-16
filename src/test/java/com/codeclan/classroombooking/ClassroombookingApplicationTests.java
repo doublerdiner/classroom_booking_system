@@ -66,7 +66,7 @@ class ClassroombookingApplicationTests {
 	public void absenceHasDetails(){
 		student = new Student("Dale", "Cooper", 1);
 		absence = new Absence(AbsenceType.LATE, LocalDate.now(), student);
-		assertEquals("Late", absence.getAbsenceType().formatted());
+		assertEquals("Late", absence.getAbsence().formatted());
 		assertEquals(LocalDate.parse("2023-05-09"),  absence.getDate());
 		assertEquals("Dale", absence.getStudent().getFirstName());
 		assertEquals(null, absence.getNotes());
