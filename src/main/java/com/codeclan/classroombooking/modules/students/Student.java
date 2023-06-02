@@ -45,10 +45,10 @@ public class Student {
     private List<Lesson> lessons;
 
     @JsonIgnoreProperties({"student"})
-    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Demerit> demerits;
     @JsonIgnoreProperties({"student"})
-    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Absence> absences;
     @Column(name = "demerit_flag")
     private boolean demeritFlag;
